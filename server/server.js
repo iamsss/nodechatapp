@@ -9,8 +9,8 @@ const express = require('express');
 
 
 // declaring Global variable
-var port = 3000;
-var app = express();
+var port = process.env.PORT || 3000; // Setup For Heroku Configurations Port
+var app = express(); 
 const publicPath = path.join(__dirname, '../public');
 
 

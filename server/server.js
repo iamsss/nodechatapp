@@ -22,6 +22,17 @@ io.on('connection', (socket) => {
     socket.on('disconnect',() => {
         console.log('Disconnected to client');
     });
+
+    socket.emit('newMessage', {
+        from: 'mike@example.com',
+        text: 'what is going on',
+        createdAt: 123
+    });
+
+    socket.on('createMessage',(newEmail) => {
+        console.log('created Email ', newEmail);
+    }); // Methods to listen the emit event of client
+
 });
 
 

@@ -1,12 +1,13 @@
 // BuitIn Variable
 const path = require('path');
 const http = require('http');
+
 // Module VAriable Initilization
 const express = require('express');
 const socketIO = require('socket.io');
 
 // Loading Addition Site File
-
+const {generateMessage} = require('./utils/message');
 
 // declaring Global variable
 var port = process.env.PORT || 3000; // Setup For Heroku Configurations Port
@@ -24,26 +25,14 @@ io.on('connection', (socket) => {
     });
 
     
-    socket.emit('newMessage', {
-        from: 'admin@example.com',
-        text: 'Welcome To Chat',
-        createdAt: 123
-    });
+    socket.emit('newMessage', generateMessage('admin','New user joined'));
 
-    socket.broadcast.emit('newMessage',{
-        from:'admin@exapmple.com',
-        text: 'New User Joined',
-        createdAt : new Date().getTime()            
-    });
+    socket.broadcast.emit('newMessage',generateMessage('admin','New user joined'));
 
     socket.on('createMessage',(message) => {
         console.log('created Message ', message);
     
-        io.emit('newMessage',{
-            from:message.from,
-            text: message.text,
-            createdAt : new Date().getTime()            
-        }); // io.emit is for 
+        io.emit('newMessage',generateMessage(message.from,message.text)); // io.emit is for 
     
 
         // socket.broadcast.emit('newMessage',{

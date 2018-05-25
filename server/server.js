@@ -7,7 +7,7 @@ const express = require('express');
 const socketIO = require('socket.io');
 
 // Loading Addition Site File
-const {generateMessage} = require('./utils/message');
+const {generateMessage, generateLocationMessage} = require('./utils/message');
 
 // declaring Global variable
 var port = process.env.PORT || 3000; // Setup For Heroku Configurations Port
@@ -43,6 +43,9 @@ io.on('connection', (socket) => {
 
     }); // Methods to listen the emit event of client
 
+    socket.on('createLocationMessage', (coords) => {
+            io.emit('newLocationMessage',generateLocationMessage('Admin',coords.latitude , coords.longitude));
+    });
     
 
 });

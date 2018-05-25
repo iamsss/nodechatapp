@@ -23,27 +23,34 @@ io.on('connection', (socket) => {
         console.log('Disconnected to client');
     });
 
+    
     socket.emit('newMessage', {
-        from: 'mike@example.com',
-        text: 'what is going on',
+        from: 'admin@example.com',
+        text: 'Welcome To Chat',
         createdAt: 123
+    });
+
+    socket.broadcast.emit('newMessage',{
+        from:'admin@exapmple.com',
+        text: 'New User Joined',
+        createdAt : new Date().getTime()            
     });
 
     socket.on('createMessage',(message) => {
         console.log('created Message ', message);
     
-        // io.emit('newMessage',{
-        //     from:message.from,
-        //     text: message.text,
-        //     createdAt : new Date().getTime()            
-        // }); // io.emit is for 
-    
-
-        socket.broadcast.emit('newMessage',{
+        io.emit('newMessage',{
             from:message.from,
             text: message.text,
             createdAt : new Date().getTime()            
-        }); // socket.brodcast  is for emiiting to all connected device expect himself
+        }); // io.emit is for 
+    
+
+        // socket.broadcast.emit('newMessage',{
+        //     from:message.from,
+        //     text: message.text,
+        //     createdAt : new Date().getTime()            
+        // }); // socket.brodcast  is for emiiting to all connected device expect himself
 
     }); // Methods to listen the emit event of client
 

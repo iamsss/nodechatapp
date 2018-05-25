@@ -8,7 +8,7 @@ const socketIO = require('socket.io');
 
 // Loading Addition Site File
 const {generateMessage, generateLocationMessage} = require('./utils/message');
-
+const {isRealString} = require('./utils/validate');
 // declaring Global variable
 var port = process.env.PORT || 3000; // Setup For Heroku Configurations Port
 var app = express(); 
@@ -29,6 +29,13 @@ io.on('connection', (socket) => {
 
     socket.broadcast.emit('newMessage',generateMessage('admin','New user joined'));
 
+    socket.on('join', (params, callback) => {
+        if(!isRealString(params.name) || !isRealString(params.room)){
+            callback('Name and room are required');
+        }
+       
+        callback();
+    });
     socket.on('createMessage',(message,callback) => {
         console.log('created Message ', message);
     

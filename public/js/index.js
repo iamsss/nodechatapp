@@ -34,6 +34,7 @@ socket.on('newLocationMessage', function(data){
 //     }); // Methods to Send Data from client to serve
 
 
+
 $('#message-form').on('submit', function(e) {
     e.preventDefault();
     var text = $('[name=message]').val();
@@ -43,7 +44,7 @@ $('#message-form').on('submit', function(e) {
         from,
         text
     }, function(data) {
-        console.log('Got it',data);
+        $('[name=message]').val('');
     }); // Methods to Send Data from client to serve
 
 })
@@ -60,6 +61,7 @@ navigator.geolocation.getCurrentPosition (function(position){
         latitude: position.coords.latitude,
         longitude: position.coords.longitude
     })
+    
 },function(){
     alert('unable to fetch location')
 })
